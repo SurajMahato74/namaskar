@@ -24,24 +24,21 @@ const Rooms = () => {
       title: 'Deluxe Rooms',
       price: 'NPR 6,500',
       description: 'Elegantly furnished rooms with modern amenities.',
-      image:
-        'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
+      image: '/assets/images/bed.avif',
       amenities: ['Free WiFi', 'Air Conditioning', 'Mini Bar', 'LED TV', 'Room Service']
     },
     suite: {
       title: 'Executive Suites',
       price: 'NPR 12,500',
       description: 'Spacious suites with separate living area.',
-      image:
-        'https://images.pexels.com/photos/1743373/pexels-photo-1743373.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
+      image: '/assets/images/hall.avif',
       amenities: ['Free WiFi', 'Living Area', 'Premium Mini Bar', 'Smart TV', '24/7 Service']
     },
     presidential: {
       title: 'Presidential Suite',
       price: 'NPR 20,500',
       description: 'Ultimate luxury with panoramic views.',
-      image:
-        'https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
+      image: '/assets/images/tables.avif',
       amenities: ['Free WiFi', 'Jacuzzi', 'Premium Bar', 'Smart TV', 'Butler Service']
     }
   };

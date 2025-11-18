@@ -31,32 +31,30 @@ const Footer = () => {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="text-center">
           {/* Company Info */}
           <motion.div
-            className="lg:col-span-1"
+            className="mb-8"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <div className="flex items-center space-x-3 mb-4">
+            <div className="flex items-center justify-center space-x-3 mb-4">
               <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-xl flex items-center justify-center shadow-lg">
                 <Crown className="w-6 h-6 text-white" />
               </div>
               <div>
                 <h3 className="text-lg md:text-xl font-serif font-bold">Namaskar Regency</h3>
-                <div className="flex items-center space-x-1">
-                  <p className="text-yellow-200 text-xs">Luxury & Comfort</p>
-                </div>
+                <p className="text-yellow-200 text-xs">Luxury & Comfort</p>
               </div>
             </div>
             
-            <p className="text-slate-200 mb-4 leading-relaxed text-sm">
+            <p className="text-slate-200 mb-6 leading-relaxed text-sm max-w-2xl mx-auto">
               Experience the finest hospitality in the heart of Biratnagar. Where traditional Nepalese warmth meets modern luxury for an unforgettable stay.
             </p>
             
-            <div className="flex space-x-3">
+            <div className="flex justify-center space-x-3 mb-8">
               {socialLinks.map((social, index) => (
                 <motion.a
                   key={social.label}
@@ -72,76 +70,19 @@ const Footer = () => {
             </div>
           </motion.div>
 
-          {/* Quick Links */}
+          {/* Contact Info */}
           <motion.div
+            className="max-w-md mx-auto"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <h4 className="text-base md:text-lg font-semibold mb-4 text-yellow-200">Quick Links</h4>
-            <ul className="space-y-2">
-              {quickLinks.map((link, index) => (
-                <motion.li 
-                  key={link}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.2 + index * 0.05 }}
-                  viewport={{ once: true }}
-                >
-                  <a
-                    href={`#${link.toLowerCase().replace(' ', '')}`}
-                    className="text-slate-200 hover:text-yellow-300 transition-colors text-sm flex items-center group"
-                  >
-                    <span className="w-1 h-1 bg-yellow-400 rounded-full mr-3 group-hover:w-2 transition-all"></span>
-                    {link}
-                  </a>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Services */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <h4 className="text-base md:text-lg font-semibold mb-4 text-yellow-200">Our Services</h4>
-            <ul className="space-y-2">
-              {services.map((service, index) => (
-                <motion.li 
-                  key={service}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.3 + index * 0.05 }}
-                  viewport={{ once: true }}
-                >
-                  <a
-                    href="#"
-                    className="text-slate-200 hover:text-yellow-300 transition-colors text-sm flex items-center group"
-                  >
-                    <span className="w-1 h-1 bg-yellow-400 rounded-full mr-3 group-hover:w-2 transition-all"></span>
-                    {service}
-                  </a>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
-          >
             <h4 className="text-base md:text-lg font-semibold mb-4 text-yellow-200">Contact Info</h4>
             <div className="space-y-3">
               <motion.div 
-                className="flex items-start space-x-3 group"
-                whileHover={{ x: 5 }}
+                className="flex items-start justify-center space-x-3 group"
+                whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.2 }}
               >
                 <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center mt-0.5 group-hover:bg-yellow-500 transition-colors">
@@ -154,8 +95,8 @@ const Footer = () => {
               </motion.div>
               
               <motion.div 
-                className="flex items-center space-x-3 group"
-                whileHover={{ x: 5 }}
+                className="flex items-center justify-center space-x-3 group"
+                whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.2 }}
               >
                 <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-yellow-500 transition-colors">
@@ -168,8 +109,8 @@ const Footer = () => {
               </motion.div>
               
               <motion.div 
-                className="flex items-center space एस-x-3 group"
-                whileHover={{ x: 5 }}
+                className="flex items-center justify-center space-x-3 group"
+                whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.2 }}
               >
                 <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-yellow-500 transition-colors">
@@ -180,19 +121,6 @@ const Footer = () => {
                   <p className="text-slate-300 text-xs">booking@namaskarregency.com</p>
                 </div>
               </motion.div>
-            </div>
-
-            {/* Facilities List */}
-            <div className="mt-6">
-              <h5 className="text-sm font-semibold mb-3 text-yellow-200">Facilities</h5>
-              <div className="grid grid-cols-2 gap-1">
-                {facilities.map((facility, index) => (
-                  <div key={facility} className="flex items-center space-x-2">
-                    <div className="w-1 h-1 bg-yellow-400 rounded-full"></div>
-                    <span className="text-slate-300 text-xs">{facility}</span>
-                  </div>
-                ))}
-              </div>
             </div>
           </motion.div>
         </div>

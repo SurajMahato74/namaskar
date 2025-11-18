@@ -59,19 +59,19 @@ const Contact = () => {
               {contactInfo.map((info, index) => (
                 <motion.div
                   key={info.title}
-                  className="bg-white rounded-xl p-4 border border-slate-200 flex-1"
+                  className="bg-white rounded-xl p-4 border border-slate-200 flex-1 text-center"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.02, y: -5 }}
                 >
-                  <div className="flex items-start space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-maroon-600 to-maroon-700 rounded-full flex items-center justify-center flex-shrink-0">
-                      <info.icon className="w-5 h-5 text-white" />
+                  <div className="flex flex-col items-center space-y-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-maroon-600 to-maroon-700 rounded-full flex items-center justify-center">
+                      <info.icon className="w-6 h-6 text-white" />
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-base font-semibold text-slate-800 mb-1">{info.title}</h3>
+                    <div>
+                      <h3 className="text-base font-semibold text-slate-800 mb-2">{info.title}</h3>
                       {info.details.map((detail, idx) => (
                         <p key={idx} className="text-slate-600 text-sm">{detail}</p>
                       ))}
@@ -155,7 +155,7 @@ const Contact = () => {
 
                 <motion.button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-maroon-600 to-maroon-700 text-white py-3 rounded-lg font-medium hover:from-maroon-700 hover:to-maroon-800 transition-all flex items-center justify-center space-x-2 mt-auto"
+                  className="w-full bg-gradient-to-r from-maroon-600 to-maroon-700 text-white py-2.5 sm:py-3 rounded-lg font-medium hover:from-maroon-700 hover:to-maroon-800 transition-all flex items-center justify-center space-x-2 mt-auto text-sm sm:text-base"
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                 >

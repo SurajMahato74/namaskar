@@ -9,21 +9,21 @@ const Events = () => {
       title: 'Corporate Events',
       description: 'Professional conference halls with modern AV equipment',
       capacity: 'Up to 200 guests',
-      image: 'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
+      image: '/assets/images/seminar.jpeg'
     },
     {
       icon: Calendar,
       title: 'Weddings',
       description: 'Elegant banquet halls for your special day',
       capacity: 'Up to 300 guests',
-      image: 'https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
+      image: '/assets/images/weeding.jpeg'
     },
     {
       icon: Music,
       title: 'Social Events',
       description: 'Versatile spaces for celebrations',
       capacity: 'Up to 150 guests',
-      image: 'https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
+      image: '/assets/images/hall.avif'
     }
   ];
 

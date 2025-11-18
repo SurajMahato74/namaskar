@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Award, Heart, Coffee, Calendar } from 'lucide-react';
-import carousel1 from '/assets/images/bed.avif';
+import carousel1 from '/assets/images/bedroom.avif';
 import carousel2 from '/assets/images/restro.avif';
-import carousel3 from '/assets/images/bed.avif';
-import carousel4 from '/assets/images/bed.avif';
+import carousel3 from '/assets/images/hall.avif';
+import carousel4 from '/assets/images/singlebed.avif';
 
 const About = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -12,8 +12,8 @@ const About = () => {
   const carouselImages = [
     {
       src: carousel1,
-      alt: 'Luxury Bed View',
-      title: 'Grand Suite'
+      alt: 'Luxury Bedroom',
+      title: 'Premium Suite'
     },
     {
       src: carousel2,
@@ -22,13 +22,13 @@ const About = () => {
     },
     {
       src: carousel3,
-      alt: 'Comfortable Room',
-      title: 'Deluxe Room'
+      alt: 'Event Hall',
+      title: 'Grand Hall'
     },
     {
       src: carousel4,
-      alt: 'Spacious Room Interior',
-      title: 'Executive Suite'
+      alt: 'Single Room',
+      title: 'Comfort Room'
     }
   ];
 

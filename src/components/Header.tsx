@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Phone, Mail } from 'lucide-react';
+import BookingModal from './BookingModal';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeLink, setActiveLink] = useState('#home');
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [selectedBookingType, setSelectedBookingType] = useState<'room' | 'event'>('room');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,6 +24,11 @@ const Header = () => {
     { href: '#events', label: 'Events' },
     { href: '#contact', label: 'Contact' },
   ];
+
+  const handleBookButton = (type: 'room' | 'event') => {
+    setSelectedBookingType(type);
+    setIsBookingModalOpen(true);
+  };
 
   return (
     <>
@@ -89,13 +97,19 @@ const Header = () => {
 
             {/* Premium CTA Buttons */}
             <div className="hidden lg:flex items-center space-x-3">
-              <button className="group relative bg-gradient-to-r from-yellow-500 to-yellow-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold overflow-hidden shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <button 
+                onClick={() => handleBookButton('room')}
+                className="group relative bg-gradient-to-r from-yellow-500 to-yellow-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold overflow-hidden shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              >
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <span className="relative">Book Room</span>
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
               </button>
               
-              <button className="group relative bg-gradient-to-r from-maroon-700 to-red-800 text-white px-5 py-2.5 rounded-xl text-sm font-semibold overflow-hidden shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <button 
+                onClick={() => handleBookButton('event')}
+                className="group relative bg-gradient-to-r from-maroon-700 to-red-800 text-white px-5 py-2.5 rounded-xl text-sm font-semibold overflow-hidden shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              >
                 <div className="absolute inset-0 bg-gradient-to-r from-maroon-600 to-red-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <span className="relative">Book Event</span>
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
@@ -106,7 +120,7 @@ const Header = () => {
       </nav>
 
       {/* Mobile Toggle Button - Always Visible, Circular, Maroon Background */}
-      <div className="lg:hidden fixed top-4 right-4 z-50">
+      <div className="lg:hidden fixed top-4 right-4 z-[60]">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="bg-maroon-700 text-white p-3 rounded-full shadow-lg hover:bg-maroon-800 transition-colors duration-300"
@@ -115,16 +129,23 @@ const Header = () => {
         </button>
       </div>
 
-      {/* Mobile Navigation - Full Height, Left Aligned, Top Aligned */}
-      {isOpen && (
-        <div className="lg:hidden bg-white border-t shadow-lg h-screen flex flex-col z-40">
-          <div className="px-4 pt-6 pb-8 space-y-3 w-full max-w-md">
+      {/* Mobile Navigation - Slide from Left */}
+      <div className={`lg:hidden fixed inset-0 z-[55] transition-all duration-300 ${isOpen ? 'visible' : 'invisible'}`}>
+        {/* Backdrop */}
+        <div 
+          className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
+          onClick={() => setIsOpen(false)}
+        />
+        
+        {/* Sidebar */}
+        <div className={`absolute left-0 top-0 h-full w-80 max-w-[85vw] bg-white shadow-xl transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+          <div className="px-6 pt-16 pb-8 space-y-4 h-full overflow-y-auto">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className={`relative block text-slate-700 text-sm font-medium px-4 py-2.5 transition-colors duration-300 group ${
-                  activeLink === link.href ? 'text-maroon-700' : 'hover:text-maroon-700'
+                className={`relative block text-slate-700 text-base font-medium px-4 py-3 rounded-lg transition-colors duration-300 group ${
+                  activeLink === link.href ? 'text-maroon-700 bg-maroon-50' : 'hover:text-maroon-700 hover:bg-slate-50'
                 }`}
                 onClick={() => {
                   setActiveLink(link.href);
@@ -132,22 +153,41 @@ const Header = () => {
                 }}
               >
                 {link.label}
-                <span className={`absolute -bottom-0.5 left-0 h-0.5 bg-yellow-600 transition-all duration-300 ${
-                  activeLink === link.href ? 'w-full' : 'w-0 group-hover:w-full'
+                <span className={`absolute bottom-2 left-4 h-0.5 bg-yellow-600 transition-all duration-300 ${
+                  activeLink === link.href ? 'w-8' : 'w-0 group-hover:w-8'
                 }`}></span>
               </a>
             ))}
-            <div className="flex flex-col space-y-3 mt-8">
-              <button className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white px-4 py-2.5 rounded-xl text-sm font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
+            <div className="flex flex-col space-y-3 mt-8 px-4">
+              <button 
+                onClick={() => {
+                  handleBookButton('room');
+                  setIsOpen(false);
+                }}
+                className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white px-4 py-3 rounded-xl text-sm font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105"
+              >
                 Book Room
               </button>
-              <button className="bg-gradient-to-r from-maroon-700 to-red-800 text-white px-4 py-2.5 rounded-xl text-sm font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
+              <button 
+                onClick={() => {
+                  handleBookButton('event');
+                  setIsOpen(false);
+                }}
+                className="bg-gradient-to-r from-maroon-700 to-red-800 text-white px-4 py-3 rounded-xl text-sm font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105"
+              >
                 Book Event
               </button>
             </div>
           </div>
         </div>
-      )}
+      </div>
+
+      {/* Booking Modal */}
+      <BookingModal 
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        initialType={selectedBookingType}
+      />
     </>
   );
 };

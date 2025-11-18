@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Camera, Image as ImageIcon } from 'lucide-react';
 
@@ -12,10 +12,10 @@ interface GalleryImage {
 }
 
 const Gallery = () => {
-  // Type selectedImage as GalleryImage or null
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
-  // Type activeCategory as one of the possible category IDs
   const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const sliderRef = useRef<HTMLDivElement>(null);
 
   const categories = [
     { id: 'all', label: 'All Photos' },
@@ -26,15 +26,76 @@ const Gallery = () => {
   ];
 
   const galleryImages: GalleryImage[] = [
-    // ... (same as provided)
     {
       id: 1,
-      src: 'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
+      src: '/assets/images/bed.avif',
       category: 'rooms',
       title: 'Deluxe Room Interior',
       description: 'Elegantly furnished deluxe room with modern amenities'
     },
-    // ... (other images)
+    {
+      id: 2,
+      src: '/assets/images/hall.avif',
+      category: 'events',
+      title: 'Grand Event Hall',
+      description: 'Spacious hall perfect for weddings and corporate events'
+    },
+    {
+      id: 3,
+      src: '/assets/images/restro.avif',
+      category: 'restaurant',
+      title: 'Fine Dining Restaurant',
+      description: 'Elegant dining experience with authentic cuisine'
+    },
+    {
+      id: 4,
+      src: '/assets/images/tables.avif',
+      category: 'restaurant',
+      title: 'Restaurant Seating',
+      description: 'Comfortable dining tables with premium ambiance'
+    },
+    {
+      id: 5,
+      src: '/assets/images/restroooposite.avif',
+      category: 'restaurant',
+      title: 'Restaurant View',
+      description: 'Beautiful restaurant interior with modern design'
+    },
+    {
+      id: 6,
+      src: '/assets/images/bedroom.avif',
+      category: 'rooms',
+      title: 'Executive Suite',
+      description: 'Luxurious bedroom with premium furnishing'
+    },
+    {
+      id: 7,
+      src: '/assets/images/roomdoublebed.avif',
+      category: 'rooms',
+      title: 'Double Bed Room',
+      description: 'Comfortable double bed room for couples'
+    },
+    {
+      id: 8,
+      src: '/assets/images/singlebed.avif',
+      category: 'rooms',
+      title: 'Single Bed Room',
+      description: 'Cozy single room perfect for solo travelers'
+    },
+    {
+      id: 9,
+      src: '/assets/images/seminar.jpeg',
+      category: 'events',
+      title: 'Seminar Hall',
+      description: 'Professional seminar and conference facilities'
+    },
+    {
+      id: 10,
+      src: '/assets/images/weeding.jpeg',
+      category: 'events',
+      title: 'Wedding Celebration',
+      description: 'Beautiful wedding setup with elegant decorations'
+    }
   ];
 
   const filteredImages = activeCategory === 'all' 
@@ -53,18 +114,23 @@ const Gallery = () => {
   };
 
   const nextImage = () => {
-    if (!selectedImage) return; // Guard against null
+    if (!selectedImage) return;
     const currentIndex = filteredImages.findIndex(img => img.id === selectedImage.id);
     const nextIndex = (currentIndex + 1) % filteredImages.length;
     setSelectedImage(filteredImages[nextIndex]);
   };
 
   const prevImage = () => {
-    if (!selectedImage) return; // Guard against null
+    if (!selectedImage) return;
     const currentIndex = filteredImages.findIndex(img => img.id === selectedImage.id);
     const prevIndex = (currentIndex - 1 + filteredImages.length) % filteredImages.length;
     setSelectedImage(filteredImages[prevIndex]);
   };
+
+  // Reset slider when category changes
+  React.useEffect(() => {
+    setCurrentSlide(0);
+  }, [activeCategory]);
 
   return (
     <>
@@ -105,9 +171,78 @@ const Gallery = () => {
             </div>
           </motion.div>
 
-          {/* Gallery Grid */}
+          {/* Mobile Slider */}
+          <div className="block sm:hidden">
+            <div className="relative overflow-hidden rounded-xl">
+              <div 
+                ref={sliderRef}
+                className="flex transition-transform duration-300 ease-in-out"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              >
+                {filteredImages.map((image, index) => (
+                  <div key={image.id} className="w-full flex-shrink-0">
+                    <div 
+                      className="group relative overflow-hidden cursor-pointer"
+                      onClick={() => openLightbox(image)}
+                    >
+                      <div className="aspect-[4/3] overflow-hidden">
+                        <img
+                          src={image.src}
+                          alt={image.title}
+                          loading="lazy"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
+                        <div className="absolute bottom-0 left-0 right-0 p-4">
+                          <h3 className="text-white font-semibold text-sm mb-1">{image.title}</h3>
+                          <p className="text-white/80 text-xs">{image.description}</p>
+                        </div>
+                        <div className="absolute top-3 right-3 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                          <Camera className="w-4 h-4 text-white" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Navigation Arrows */}
+              {filteredImages.length > 1 && (
+                <>
+                  <button
+                    onClick={() => setCurrentSlide(currentSlide > 0 ? currentSlide - 1 : filteredImages.length - 1)}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => setCurrentSlide(currentSlide < filteredImages.length - 1 ? currentSlide + 1 : 0)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </>
+              )}
+              
+              {/* Dots Indicator */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+                {filteredImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      currentSlide === index ? 'bg-white w-6' : 'bg-white/50'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop Grid */}
           <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4"
+            className="hidden sm:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4"
             layout
           >
             {filteredImages.map((image, index) => (
@@ -125,18 +260,17 @@ const Gallery = () => {
                   <img
                     src={image.src}
                     alt={image.title}
+                    loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
                 
-                {/* Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4">
                     <h3 className="text-white font-semibold text-xs md:text-sm mb-1">{image.title}</h3>
                     <p className="text-white/80 text-xs leading-relaxed">{image.description}</p>
                   </div>
                   
-                  {/* Camera Icon */}
                   <div className="absolute top-3 right-3 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
                     <Camera className="w-4 h-4 text-white" />
                   </div>

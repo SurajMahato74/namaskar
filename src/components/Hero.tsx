@@ -6,10 +6,13 @@ import carousel1 from '/assets/images/bed.avif';
 import carousel3 from '/assets/images/restroooposite.avif';
 import carousel2 from '/assets/images/tables.avif';
 import { ChevronDown, Calendar, Bed, Crown, ChevronLeft, ChevronRight } from 'lucide-react';
+import BookingModal from './BookingModal';
 
 const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [activeBookingType, setActiveBookingType] = useState('room');
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [selectedRoomType, setSelectedRoomType] = useState('standard');
 
   const carouselImages = [carousel1, carousel2, carousel3, carousel4];
 
@@ -39,6 +42,22 @@ const Hero = () => {
   const handleBookingTypeChange = (type: string) => {
     setActiveBookingType(type);
   };
+
+  const handleBookingButton = (type: 'room' | 'event') => {
+    setActiveBookingType(type);
+    setIsBookingModalOpen(true);
+  };
+
+  const handleCheckAvailability = () => {
+    // Open the booking modal with the current booking type
+    setIsBookingModalOpen(true);
+  };
+
+  const roomTypes = [
+    { value: 'standard', label: 'Standard Room - Rs. 8,000', price: '8,000' },
+    { value: 'deluxe', label: 'Deluxe Room - Rs. 12,000', price: '12,000' },
+    { value: 'suite', label: 'Executive Suite - Rs. 18,000', price: '18,000' }
+  ];
 
   return (
     <section id="home" className="relative min-h-[calc(100vh-10px)] flex items-center justify-center overflow-hidden pt-16">
@@ -202,24 +221,36 @@ const Hero = () => {
                     <Bed className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
                     <h3 className="text-sm sm:text-base font-semibold text-white">Room Reservation</h3>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2 sm:gap-3">
+                    <div>
+                      <label className="block text-xs sm:text-sm font-medium mb-1 text-white/90">Room Type</label>
+                      <select 
+                        value={selectedRoomType}
+                        onChange={(e) => setSelectedRoomType(e.target.value)}
+                        className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-white/5 sm:bg-white/10 backdrop-blur-md border border-white/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all text-xs sm:text-sm"
+                      >
+                        <option className="bg-slate-800 text-white" value="standard">Standard - Rs. 8,000</option>
+                        <option className="bg-slate-800 text-white" value="deluxe">Deluxe - Rs. 12,000</option>
+                        <option className="bg-slate-800 text-white" value="suite">Suite - Rs. 18,000</option>
+                      </select>
+                    </div>
                     <div>
                       <label className="block text-xs sm:text-sm font-medium mb-1 text-white/90">Check-in</label>
                       <input
                         type="date"
-                        className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all text-xs sm:text-sm"
+                        className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-white/5 sm:bg-white/10 backdrop-blur-md border border-white/30 rounded-lg text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all text-xs sm:text-sm"
                       />
                     </div>
                     <div>
                       <label className="block text-xs sm:text-sm font-medium mb-1 text-white/90">Check-out</label>
                       <input
                         type="date"
-                        className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all text-xs sm:text-sm"
+                        className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-white/5 sm:bg-white/10 backdrop-blur-md border border-white/30 rounded-lg text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all text-xs sm:text-sm"
                       />
                     </div>
                     <div>
                       <label className="block text-xs sm:text-sm font-medium mb-1 text-white/90">Guests</label>
-                      <select className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all text-xs sm:text-sm">
+                      <select className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-white/5 sm:bg-white/10 backdrop-blur-md border border-white/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all text-xs sm:text-sm">
                         <option className="bg-slate-800 text-white" value="1">1 Guest</option>
                         <option className="bg-slate-800 text-white" value="2">2 Guests</option>
                         <option className="bg-slate-800 text-white" value="3">3 Guests</option>
@@ -228,6 +259,7 @@ const Hero = () => {
                     </div>
                     <div className="flex items-end">
                       <motion.button
+                        onClick={handleCheckAvailability}
                         className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-white py-1.5 sm:py-2 px-2 sm:px-3 rounded-lg font-medium shadow-md relative overflow-hidden group text-xs sm:text-sm"
                         whileHover={{ 
                           scale: 1.02,
@@ -258,12 +290,12 @@ const Hero = () => {
                       <label className="block text-xs sm:text-sm font-medium mb-1 text-white/90">Event Date</label>
                       <input
                         type="date"
-                        className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all text-xs sm:text-sm"
+                        className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-white/5 sm:bg-white/10 backdrop-blur-md border border-white/30 rounded-lg text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all text-xs sm:text-sm"
                       />
                     </div>
                     <div>
                       <label className="block text-xs sm:text-sm font-medium mb-1 text-white/90">Event Type</label>
-                      <select className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all text-xs sm:text-sm">
+                      <select className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-white/5 sm:bg-white/10 backdrop-blur-md border border-white/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all text-xs sm:text-sm">
                         <option className="bg-slate-800 text-white" value="wedding">Wedding</option>
                         <option className="bg-slate-800 text-white" value="corporate">Corporate Event</option>
                         <option className="bg-slate-800 text-white" value="conference">Conference</option>
@@ -272,7 +304,7 @@ const Hero = () => {
                     </div>
                     <div>
                       <label className="block text-xs sm:text-sm font-medium mb-1 text-white/90">Expected Guests</label>
-                      <select className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all text-xs sm:text-sm">
+                      <select className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-white/5 sm:bg-white/10 backdrop-blur-md border border-white/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all text-xs sm:text-sm">
                         <option className="bg-slate-800 text-white" value="50">Up to 50</option>
                         <option className="bg-slate-800 text-white" value="100">Up to 100</option>
                         <option className="bg-slate-800 text-white" value="200">Up to 200</option>
@@ -281,6 +313,7 @@ const Hero = () => {
                     </div>
                     <div className="flex items-end">
                       <motion.button
+                        onClick={() => handleBookingButton('event')}
                         className="w-full bg-gradient-to-r from-maroon-700 to-red-800 text-white py-1.5 sm:py-2 px-2 sm:px-3 rounded-lg font-medium shadow-md relative overflow-hidden group text-xs sm:text-sm"
                         whileHover={{ 
                           scale: 1.02,
@@ -299,6 +332,13 @@ const Hero = () => {
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Booking Modal */}
+      <BookingModal 
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        initialType={activeBookingType as 'room' | 'event'}
+      />
     </section>
   );
 };
